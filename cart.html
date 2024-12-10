@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='cart.css') }}">
+    <script>
+        function showAlert(message) {
+            alert(message);
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Your Cart</h1>
+        <nav>
+            <a href="{{ url_for('home') }}" class="cart-link">Home</a>
+            <a href="{{ url_for('products') }}" class="cart-link">Products</a>
+            <a href="{{ url_for('logout') }}" class="cart-link">Logout</a>
+        </nav>
+    </header>
+    <main>
+        {% if alert_message %}
+            <script>
+                showAlert("{{ alert_message }}");
+            </script>
+        {% endif %}
+
+        <div id="cart-items">
+            {% if cart_items %}
+                {% for item in cart_items %}
+                <div class="cart-item">
+                    <h3>{{ item['name'] }}</h3>
+                    <p>Price: ₹{{ item['price'] }}</p>
+                    <p>Subtotal: ₹{{ item['total'] }}</p>
+                    <form action="{{ url_for('cart') }}" method="post">
+                        <input type="hidden" name="product_id" value="{{ item['product_id'] }}">
+                        <input type="hidden" name="action" value="update">
+                        <label for="quantity-{{ item['product_id'] }}">Quantity:</label>
+                        <input type="number" id="quantity-{{ item['product_id'] }}" name="quantity" value="{{ item['cart_quantity'] }}" min="1">
+                        <button type="submit">Update</button>
+                    </form>
+                    <form action="{{ url_for('cart') }}" method="post">
+                        <input type="hidden" name="product_id" value="{{ item['product_id'] }}">
+                        <input type="hidden" name="action" value="remove">
+                        <button type="submit">Remove</button>
+                    </form>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>Your cart is empty.</p>
+            {% endif %}
+        </div>
+        <p>Total: ₹{{ cart_items | sum(attribute='total') }}</p>
+        <form action="{{ url_for('checkout') }}" method="post">
+            <button type="submit">Proceed to Checkout</button>
+        </form>
+    </main>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Admin Dashboard</h1>
+    
+    <!-- Displaying counts for Products, Orders, and Customers -->
+    <p>Total Products: {{ product_count }}</p>
+    <p>Total Orders: {{ order_count }}</p>
+    <p>Total Customers: {{ customer_count }}</p>
+    
+    <!-- Button to trigger forecast generation -->
+    <form action="{{ url_for('admin_dashboard') }}" method="post">
+        <button type="submit" class="btn btn-primary">Generate Forecast</button>
+    </form>
+    
+    <!-- Link to view the forecast results -->
+    <h3>
+        <a href="{{ url_for('forecast') }}">View Detailed Forecast </a>
+    </h3>
+{% endblock %}

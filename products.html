@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='product.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Our Products</h1>
+        <nav>
+            <a href="{{ url_for('cart') }}" class="cart-link">Go to Cart</a>
+            <a href="{{ url_for('logout') }}" class="cart-link">Logout</a>
+            <a href="{{ url_for('home') }}" class="cart-link">Home</a>
+        </nav>
+    </header>
+    <main>
+        <section id="products">
+            {% for product in products %}
+            <div class="product">
+                <img 
+                    src="{{ url_for('static', filename=product['image'] if product['image'] else 'default.webp') }}" 
+                    alt="{{ product['name'] if product['name'] else 'No Name' }}">
+                <h3>{{ product['name'] }}</h3>
+                <p>{{ product['description'] }}</p>
+                <p>Price: ₹{{ product['price'] }}</p>
+                <form action="{{ url_for('products') }}" method="post">
+                    <input type="hidden" name="product_id" value="{{ product['product_id'] }}">
+                    <button type="submit" class="class-link">Add to Cart</button>
+                </form>
+            </div>
+            {% endfor %}
+        </section>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <script type="text/javascript">
+                alert("{{ messages[0] }}");  
+            </script>
+        {% endif %}
+        {% endwith %}
+    </main>
+</body>
+</html>

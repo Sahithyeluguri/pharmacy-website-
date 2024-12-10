@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+<div class="container">
+    <h2>Signup</h2>
+    <form method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="phonenumber">Phone Number:</label>
+        <input type="text" id="phonenumber" name="phone_number" placeholder="+91XXXXXXXX" required>
+
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" required></textarea>
+        <br>
+
+        <button type="submit">Sign Up</button>
+    </form>
+</div>
+{% endblock %}

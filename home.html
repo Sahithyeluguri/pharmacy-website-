@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MediPharmacy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('products') }}">Products</a></li>
+                {% if 'username' in session %}
+                    <li><a href="{{ url_for('cart') }}">Cart</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    <li>Welcome, {{ session['username'] }}</li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        
+        <div class="hero-section" id="home">
+            <h1>Welcome to MediPharmacy</h1>
+            <p>Your Health, Our Priority. Rated 5 stars by thousands of happy customers.</p>
+            <form action="{{ url_for('products') }}">
+                <button type="submit" class="cta-button">Shop Now</button>
+            </form>             
+        </div>
+    </header>
+
+    
+
+    <!-- About Us Section -->
+    <section id="about" class="about-section">
+        <h2>About Us</h2>
+        <p>MediPharmacy is your trusted online store for quality medicines and healthcare products. With years of experience, we ensure top-notch service and customer satisfaction.</p>
+        <p>We believe in making healthcare affordable and accessible to everyone, from the comfort of your home.</p>
+    </section>
+
+    <!-- Customer Reviews Section -->
+    <section id="reviews" class="reviews-section">
+        <h2>Customer Reviews</h2>
+        <div class="review-grid">
+            <div class="review-item">
+                <p>"MediPharmacy saved me so much time and effort! Great prices and fast delivery." - <strong>Anjali K.</strong></p>
+            </div>
+            <div class="review-item">
+                <p>"Highly recommend their service. Reliable and customer-friendly!" - <strong>Rahul M.</strong></p>
+            </div>
+            <div class="review-item">
+                <p>"The best online pharmacy I’ve come across. Fantastic support team." - <strong>Sneha T.</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section id="contact" class="contact-section">
+        <h2>Contact Us</h2>
+        <p>Have questions? We're here to help! Reach out to us through any of the methods below:</p>
+        <ul>
+            <li>Email: support@medipharmacy.com</li>
+            <li>Phone: +91 9876543210</li>
+            <li>Address: 123 Health Avenue, Bangalore, India</li>
+        </ul>
+       
+    </section>
+</body>
+</html>

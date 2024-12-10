@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin: 10px;
+            padding: 10px;
+        }
+
+        input[type="text"], input[type="number"] {
+            margin: 8px 0;
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 8px 0;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 90%;
+            margin: 30px auto;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        .delete-btn {
+            background-color: red;
+            border: none;
+            padding: 8px 16px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: #e44d4d;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .form-container input {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Manage Products</h1>
+
+    <div class="form-container">
+        <form method="POST" action="{{ url_for('admin_products') }}">
+            <h2>Add New Product</h2>
+            <input type="hidden" name="action" value="add">
+            <input type="text" name="name" placeholder="Enter product name" required>
+            <input type="number" name="price" placeholder="Enter product price" step="0.01" required>
+            <input type="number" name="quantity" placeholder="Enter quantity" required>
+            <button type="submit">Add Product</button>
+        </form>
+    </div>
+
+    <h2>Available Products</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <form method="POST" action="{{ url_for('admin_products') }}">
+                    <td>{{ product.product_id }}</td>
+                    <td><input type="text" name="name" value="{{ product.name }}" required></td>
+                    <td><input type="number" name="price" step="0.01" value="{{ product.price }}" required></td>
+                    <td><input type="number" name="quantity" value="{{ product.quantity }}" required></td>
+                    <td>
+                        <input type="hidden" name="product_id" value="{{ product.product_id }}">
+                        <input type="hidden" name="action" value="update">
+                        <button type="submit">Update</button>
+                    </td>
+                </form>
+                <form method="POST" action="{{ url_for('admin_products') }}">
+                    <td>
+                        <input type="hidden" name="product_id" value="{{ product.product_id }}">
+                        <input type="hidden" name="action" value="delete">
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </td>
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% endblock %}
